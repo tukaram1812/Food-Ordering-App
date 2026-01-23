@@ -195,6 +195,16 @@ const config = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
+
+  transform: {
+    "^.+\\.(js|jsx)$": "babel-jest",
+  },
+
+  transformIgnorePatterns: [
+    "/node_modules/(?!(react-router|react-router-dom)/)",
+  ],
+
+  setupFilesAfterEnv: ["@testing-library/jest-dom"],
 };
 
 module.exports = config;

@@ -1,3 +1,4 @@
+import React from "react";
 import { LOGO_URL } from "../utils/constants";
 import { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
@@ -7,7 +8,7 @@ import { useSelector } from "react-redux";
 
 const Header = () => {
   const [btnNameReact, setBtnNameReact] = useState("Login");
-  console.log("Header render");
+  // console.log("Header render");
 
   const onlineStatus = useOnlineStatus();
 
@@ -21,7 +22,7 @@ const Header = () => {
   // Subscribing to the store using a Selector
 
   const cartItems = useSelector((store) => store.cart.items);
-  console.log(cartItems);
+  // console.log(cartItems);
 
   return (
     <div className="flex justify-between bg-pink-100 shadow-lg m-2 sm:bg-yellow-50 lg:bg-green-50">

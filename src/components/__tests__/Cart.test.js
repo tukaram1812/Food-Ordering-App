@@ -1,0 +1,61 @@
+import { useEffect, useState } from "react";
+import { fireEvent, getByText, render, screen } from "@testing-library/react";
+import { act } from "react";
+import RestaurantMenu from "../RestaurantMenu";
+import Header from "../Header";
+import Cart from "../Cart";
+import { json } from "react-router";
+import MOCK_DATA_NAME from "../mocks/mockResMenu.json";
+import useRestaurantMenu from "../utils/useRestaurantMenu";
+import { Provider } from "react-redux";
+import appStore from "../../utils/appStore";
+import { BrowserRouter } from "react-router-dom";
+import "@testing-library/jest-dom";
+
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(MOCK_DATA_NAME),
+  })
+);
+
+it("Should Load Restaurant Menu component", async () => {
+  await act(async () =>
+    render(
+      <BrowserRouter>
+        <Provider store={appStore}>
+          <Header />
+          <RestaurantMenu />
+          <Cart />
+        </Provider>
+      </BrowserRouter>
+    )
+  );
+
+  const accordionHeader = screen.getByText("Ice Creams (3)");
+
+  fireEvent.click(accordionHeader);
+
+  expect(screen.getAllByTestId("foodItems").length).toBe(3);
+
+  expect(screen.getByText("Cart(0 Items)")).toBeInTheDocument();
+
+  const addBtns = screen.getAllByRole("button", { name: "Add +" });
+
+  fireEvent.click(addBtns[0]);
+
+  expect(screen.getByText("Cart(1 Items)")).toBeInTheDocument();
+
+  fireEvent.click(addBtns[1]);
+
+  expect(screen.getByText("Cart(2 Items)")).toBeInTheDocument();
+
+  expect(screen.getAllByTestId("foodItems").length).toBe(5);
+
+  fireEvent.click(screen.getByRole("button", { name: "Clear Cart" }));
+
+  expect(screen.getAllByTestId("foodItems").length).toBe(3);
+
+  expect(
+    screen.getByText("Cart is empty. Add items to the Cart !")
+  ).toBeInTheDocument();
+});

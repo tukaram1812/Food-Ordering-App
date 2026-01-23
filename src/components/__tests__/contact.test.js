@@ -5,6 +5,22 @@ import "@testing-library/jest-dom";
 import { testEnvironment } from "../../../jest.config";
 
 describe("Contact Us Page Test Cases", () => {
+  // afterAll(() => {
+  //   console.log("After All");
+  // });
+
+  // afterEach(() => {
+  //   console.log("After Each");
+  // });
+
+  // beforeAll(() => {
+  //   console.log("Before All");
+  // });
+
+  // beforeEach(() => {
+  //   console.log("Before Each");
+  // });
+
   it("Should load contact us component", () => {
     render(<Contact />);
 
